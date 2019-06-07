@@ -33,8 +33,23 @@ def song():
         outputstr += ' {}: {}'.format(e, request.args[e])
     if request.args:
         flash("search for"+ outputstr)
-        
     return render_template('song.html', data = fake_song_data())
+
+@app.route('/artist/', methods=['GET'])
+def artist():
+    return render_template('artist.html')
+
+@app.route('/album/', methods=['GET'])
+def album():
+    return render_template('album.html')
+
+@app.route('/series/', methods=['GET'])
+def series():
+    return render_template('series.html')
+
+@app.route('/info/', methods=['GET'])
+def info():
+    return render_template('info.html')
 
 @app.route('/song/edit/<int:id>', methods=['GET', 'POST'])
 def edit_song(id):
@@ -83,10 +98,6 @@ def create_song():
 @app.route('/song/_delete/', methods= ['POST'])
 def delete():
     return "123"
-
-@app.route('/artist/')
-def artist():
-    return render_template('init.html')
 
 def fake_song_data():
     data = []

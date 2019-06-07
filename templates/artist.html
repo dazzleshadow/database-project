@@ -9,29 +9,16 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<script src="https://kit.fontawesome.com/9b01b34a95.js"></script>
 	<link rel="shortcut icon" href="https://i.imgur.com/zqbEUQ2.png"  type="image/ico" />
+	<script>
+		$(document).ready(function() {
+			$("#nav-artist").css("background-color", "#99FFFF");
+		});
+	</script>
 </head>
 <body style=" font-family: 微軟正黑體;">
-    <div>
-          <nav class="navbar navbar-dark bg-dark ">
-            <a class="navbar-brand" style="color: white;" href="{{ url_for('main_page') }}">
-				<span style="font-size: 40px">
-					<i class="fas fa-music"></i>
-					<b>MuXic</b>
-				</span>
-            </a>
-          </nav>
-    </div>
+{% include "macros/banner.html" %}
 	<div class="row">
-		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <div class="list-group list-group-flush" style="width:105%; font-size: 17px;">
-				<a href="{{ url_for('main_page') }}" class="list-group-item list-group-item-action"><i class="fas fa-play" style="font-size:20px"></i>　播放器</a>
-				<a href="/music/" class="list-group-item list-group-item-action"><i class="fas fa-music" style="font-size:20px"></i>　歌曲</a>
-				<a href="/artist/" class="list-group-item list-group-item-action" style="background-color: #99FFFF"><i class="fas fa-microphone" style="font-size:20px"></i>　演出者</a>
-				<a href="/album/" class="list-group-item list-group-item-action"><i class="fas fa-compact-disc" style="font-size:20px"></i>　專輯</a>
-				<a href="/series/" class="list-group-item list-group-item-action"><i class="fab fa-microsoft" style="font-size:20px"></i>　系列</a>
-				<a href="/info/" class="list-group-item list-group-item-action"><i class="fas fa-info-circle" style="font-size:20px"></i>　關於</a>
-			</div>
-        </div>
+{% include "macros/nav.html" %}
 		<div  class="col">
 		<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
 			<span style="color:black;margin-top:40px;margin-left:10px;font-size: 40px">

@@ -3,6 +3,16 @@ from flask import Flask, render_template, url_for, request, redirect, flash
 
 app = Flask(__name__)
 
+@app.route('/test/', methods=['GET', 'POST'])
+def for_testing():
+    print('GET')
+    for e in request.args:
+        print(e, ': ', request.args[e])
+    print('POST')
+    for e in request.values:
+        print(e, ': ', request.values[e])
+    return redirect(url_for('main_page'))
+
 @app.route('/')
 def main_page():
     return render_template('init.html')

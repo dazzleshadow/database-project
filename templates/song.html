@@ -19,36 +19,17 @@
 			{% endif %}
 			{% endwith %}*/
 	</script>
+	<script>
+		$(document).ready(function() {
+			$("#nav-song").css("background-color", "#99FFFF");
+		});
+	</script>
 </head>
 
 <body style=" font-family: 微軟正黑體;">
-	<div>
-		<nav class="navbar navbar-dark bg-dark ">
-			<a class="navbar-brand" style="color: white;" href="{{ url_for('main_page') }}">
-				<span style="font-size: 40px">
-					<i class="fas fa-music"></i>
-					<b>MuXic</b>
-				</span>
-			</a>
-		</nav>
-	</div>
+{% include "banner.html" %}
 	<div class="row">
-		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-			<div class="list-group list-group-flush" style="width:105%; font-size: 17px;">
-				<a href="{{ url_for('main_page') }}" class="list-group-item list-group-item-action"><i
-						class="fas fa-play" style="font-size:20px"></i>　播放器</a>
-				<a href="{{ url_for('song') }}" class="list-group-item list-group-item-action" style="background-color: #99FFFF"><i
-						class="fas fa-music" style="font-size:20px"></i>　歌曲</a>
-				<a href="/" class="list-group-item list-group-item-action"><i class="fas fa-microphone"
-						style="font-size:20px"></i>　演出者</a>
-				<a href="/" class="list-group-item list-group-item-action"><i class="fas fa-compact-disc"
-						style="font-size:20px"></i>　專輯</a>
-				<a href="/" class="list-group-item list-group-item-action"><i class="fab fa-microsoft"
-						style="font-size:20px"></i>　系列</a>
-				<a href="/" class="list-group-item list-group-item-action"><i class="fas fa-info-circle"
-						style="font-size:20px"></i>　關於</a>
-			</div>
-		</div>
+{% include "nav.html" %}
 		<div class="col">
 			<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
 				<span style="color:black;margin-top:40px;margin-left:10px;font-size: 40px">
@@ -109,19 +90,21 @@
 						</tr>
 					</thead>
 					<tbody>
+						{% for e in data -%}
 						<tr>
-							<td> [0] </td>
-							<td> [1] </td>
-							<td> [2] </td>
-							<td> [3] </td>
-							<td> [4] </td>
+							<td> {{ e['name'] }} </td>
+							<td> {{ e['artist'] }} </td>
+							<td> {{ e['album'] }} </td>
+							<td> {{ e['series'] }} </td>
+							<td> {{ e['time'] }} </td>
 							<td>
-								<a href="{{ url_for('edit_song', id= 4) }}"" class="btn btn-primary btn-sm">編輯</a>
+								<a href="{{ url_for('edit_song', id= e['id']) }}"" class="btn btn-primary btn-sm">編輯</a>
 							</td>
 							<td>
-								<a href="/add_to_playlist" class="btn btn-sm btn-success"><i class="fas fa-plus-square"></i></a>
+								<a href="{{ url_for('add_to_list', id=e['id']) }}" class="btn btn-sm btn-success"><i class="fas fa-plus-square"></i></a>
 							</td>
 						</tr>
+						{%- endfor %}
 
 					</tbody>
 				</table>

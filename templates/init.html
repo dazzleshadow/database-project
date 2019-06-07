@@ -9,29 +9,16 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<script src="https://kit.fontawesome.com/9b01b34a95.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$("#nav-main").css("background-color", "#99FFFF");
+		});
+	</script>
 </head>
 <body style=" font-family: 微軟正黑體;">
-    <div>
-          <nav class="navbar navbar-dark bg-dark ">
-            <a class="navbar-brand" style="color: white;" href="{{ url_for('main_page') }}">
-				<span style="font-size: 40px">
-					<i class="fas fa-music"></i>
-					<b>MuXic</b>
-				</span>
-            </a>
-          </nav>
-    </div>
+{% include "banner.html" %}
 	<div class="row">
-		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <div class="list-group list-group-flush" style="width:105%; font-size: 17px;">
-				<a href="{{ url_for('main_page') }}" class="list-group-item list-group-item-action" style="background-color: #99FFFF"><i class="fas fa-play" style="font-size:20px"></i>　播放器</a>
-				<a href="{{ url_for('song') }}" class="list-group-item list-group-item-action"><i class="fas fa-music" style="font-size:20px"></i>　歌曲</a>
-				<a href="/" class="list-group-item list-group-item-action"><i class="fas fa-microphone" style="font-size:20px"></i>　演出者</a>
-				<a href="/" class="list-group-item list-group-item-action"><i class="fas fa-compact-disc" style="font-size:20px"></i>　專輯</a>
-				<a href="/" class="list-group-item list-group-item-action"><i class="fab fa-microsoft" style="font-size:20px"></i>　系列</a>
-				<a href="/" class="list-group-item list-group-item-action"><i class="fas fa-info-circle" style="font-size:20px"></i>　關於</a>
-			</div>
-        </div>
+{% include "nav.html" %}
 		<div class="col">
 				<div  class="col-xs-9 col-sm-9 col-md-9 col-lg-9" style="margin-top:30px">
 					<iframe width="848" height="480" src="https://www.youtube-nocookie.com/embed/qUf4MlEkVxk?rel=0&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

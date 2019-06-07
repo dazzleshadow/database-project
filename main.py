@@ -7,18 +7,39 @@ app = Flask(__name__)
 def main_page():
     return render_template('init.html')
 
+@app.route('/add_to_list', methods=['GET'])
+def add_to_list():
+    id = request.args['id']
+    # insert song(id) to playlist
+    flash("add song: {} to list".format(id))
+    return redirect(url_for('song'))
+
 @app.route('/song/', methods=['GET'])       # 搜尋的內容放在 GET 區 ?abc=abc
 def song():
-    return render_template('song.html')
+    # id, name, artist, album, series, time
+    return render_template('song.html', data = fake_song_data())
 
-@app.route('/song/edit/<id>', methods=['GET', 'POST'])
+@app.route('/song/edit/<int:id>', methods=['GET', 'POST'])
 def edit_song(id):
     if request.method == 'GET':
         print("id:", id)
-        return render_template('edit.html', id=id)
+        data = fake_song_data()[id]
+        data['link'] = 'templink'
+        for e in request.args:
+            data[e] = request.args[e]
+        # print(data)
+        return render_template('edit.html', **data)
     elif request.method == 'POST':
-        pass
+        print("POST create song...>")
+        for e in request.values:
+            print(e, ':', request.values[e])
         # TODO SQL update   success >> return true
+        if True:
+            flash('更新成功! ')
+            return redirect(url_for('song'))
+        else:
+            flash('更新失敗! ')
+            return redirect(url_for('edit_song', **request.values, id=id))
 
 @app.route('/song/create/', methods=['GET', 'POST'])
 def create_song():
@@ -29,14 +50,14 @@ def create_song():
         
         return render_template('edit.html', **request.args)
     elif request.method == 'POST':
-        print("OPST create song...>")
+        print("POST create song...>")
         for e in request.values:
             print(e, ':', request.values[e])
         #input()
         # TODO SQL insert   success >> return true
         if False:
             flash('新增成功! ')
-            return render_template('song.html')
+            return redirect(url_for('song'))
         else:
             flash('新增失敗! ')
             return redirect(url_for('create_song', **request.values))
@@ -49,6 +70,20 @@ def delete():
 @app.route('/artist/')
 def artist():
     return render_template('init.html')
+
+def fake_song_data():
+    data = []
+    for i in range(5):    # id, name, artist, album, series, time
+        song = {}
+        song['id'] = i
+        song['name'] = 'name {}'.format(i)
+        song['artist'] = 'artist {}'.format(i)
+        song['album'] = 'album {}'.format(i)
+        song['series'] = 'series {}'.format(i)
+        song['time'] = 'time {}'.format(i)
+        data += [song]
+    return data
+
 
 
 

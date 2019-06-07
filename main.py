@@ -32,8 +32,8 @@ def create_song():
         print("OPST create song...>")
         for e in request.values:
             print(e, ':', request.values[e])
-        input()
-        # TODO SQL update   success >> return true
+        #input()
+        # TODO SQL insert   success >> return true
         if False:
             flash('新增成功! ')
             return render_template('song.html')

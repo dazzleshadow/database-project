@@ -80,7 +80,7 @@
 				<label class="col-form-label" style="margin-left:15px">長度</label>
 				<div class="col-7">
 					<input class="form-control" type="number" name="time" value='{{ time }}' placeholder='time...>'
-						id="time" style="margin-left:20px">
+						id="time" style="margin-left:20px" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')">
 				</div>
 			</div>
 

@@ -37,16 +37,7 @@
 </head>
 
 <body style=" font-family: 微軟正黑體;">
-	<div>
-		<nav class="navbar navbar-dark bg-dark ">
-			<a class="navbar-brand" style="color: white;" href="{{ url_for('main_page') }}">
-				<span style="font-size: 40px">
-					<i class="fas fa-music"></i>
-					<b>MuXic</b>
-				</span>
-			</a>
-		</nav>
-	</div>
+{% include "macros/banner.html" %}
 	<div class="px-5 mt-3 col-xs-9 col-sm-9 col-md-9 col-lg-9">
 		<div style="font-size: 30px">
 			<i class="fas fa-pencil-alt"></i>

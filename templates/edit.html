@@ -34,17 +34,6 @@
 
 		function dotest() {}
 	</script>
-	<script>
-		// {% with messages = get_flashed_messages() %}
-		/* {% if messages %}
-				{% for message in messages %}
-					*/
-		alert('{{ message }}');
-		/*
-						{% endfor %}
-					{% endif %}
-					{% endwith %}*/
-	</script>
 </head>
 
 <body style=" font-family: 微軟正黑體;">
@@ -125,6 +114,11 @@
 		</form>
 	</div>
 
+	<script>
+		//{%- with messages = get_flashed_messages() -%}{%- if messages -%}{%- for message in messages %}
+		alert('{{ message }}');
+		//{% endfor -%}{%- endif -%}{%- endwith %}
+	</script>
 </body>
 
 </html>

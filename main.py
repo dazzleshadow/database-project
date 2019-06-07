@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, flash
 # from test_mysql import cursor, db
 
 app = Flask(__name__)
@@ -29,9 +29,12 @@ def create_song():
         for e in request.values:
             print(e, ':', request.values[e])
         input()
-            
-        return redirect(url_for('create_song'), code=307)   # POST 過來的資料都會留著 讚!
         # TODO SQL update   success >> return true
+        if True:
+            flash('新增成功! ')
+            return render_template('song.html')
+        else:
+            return redirect(url_for('create_song'), code=307)   # POST 過來的資料都會留著 讚!
 
 @app.route('/song/_delete/', methods= ['POST'])
 def delete():
@@ -44,5 +47,6 @@ def artist():
 
 
 if __name__ == "__main__":
+    app.secret_key = 'my secret key'
     app.run(debug = True, port = 5000)
     # db.close()

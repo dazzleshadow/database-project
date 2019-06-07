@@ -17,6 +17,13 @@ def add_to_list():
 @app.route('/song/', methods=['GET'])       # 搜尋的內容放在 GET 區 ?abc=abc
 def song():
     # id, name, artist, album, series, time
+    outputstr= ""
+    for e in request.args:
+        print(e, ': ', request.args[e])
+        outputstr += ' {}: {}'.format(e, request.args[e])
+    if request.args:
+        flash("search for"+ outputstr)
+        
     return render_template('song.html', data = fake_song_data())
 
 @app.route('/song/edit/<int:id>', methods=['GET', 'POST'])
@@ -55,7 +62,7 @@ def create_song():
             print(e, ':', request.values[e])
         #input()
         # TODO SQL insert   success >> return true
-        if False:
+        if True:
             flash('新增成功! ')
             return redirect(url_for('song'))
         else:

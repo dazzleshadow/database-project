@@ -60,7 +60,7 @@ def edit_song(id):
         for e in request.args:
             data[e] = request.args[e]
         # print(data)
-        return render_template('edit song.html', **data)
+        return render_template('edits/edit song.html', **data)
     elif request.method == 'POST':
         print("POST create song...>")
         for e in request.values:
@@ -80,7 +80,7 @@ def create_song():
         for e in request.args:
             print(e, ':', request.args[e])
         
-        return render_template('edit song.html', **request.args)
+        return render_template('edits/edit song.html', **request.args)
     elif request.method == 'POST':
         print("POST create song...>")
         for e in request.values:

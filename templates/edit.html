@@ -15,6 +15,15 @@
 			$("form").attr("action", location.href);	//返回原先頁面
 		});
 	</script>
+	<script>
+		// {% with messages = get_flashed_messages() %}
+		/* {% if messages %}
+				{% for message in messages %}
+					*/alert('{{ message }}');/*
+				{% endfor %}
+			{% endif %}
+			{% endwith %}*/
+	</script>
 </head>
 <body style=" font-family: 微軟正黑體;">
     <div>
@@ -44,35 +53,35 @@
 			<div class="form-group row" style="margin-top:20px">
 				<label class="col-form-label" style="margin-left:15px">歌手</label>
 				<div class="col-7">
-					<input class="form-control" type="text" name="artist" value=[1] id="example-text-input" style="margin-left:20px">
+					<input class="form-control" type="text" name="artist" value='{{ artist }}' id="example-text-input" style="margin-left:20px">
 				</div>
 			</div>
 			
 			<div class="form-group row" style="margin-top:20px">
 				<label class="col-form-label" style="margin-left:15px">連結</label>
 				<div class="col-7">
-					<input class="form-control" type="text" name="link" value=連結1 id="example-text-input" style="margin-left:20px">
+					<input class="form-control" type="text" name="link" value='{{ link }}' id="example-text-input" style="margin-left:20px">
 				</div>
 			</div>
 
 			<div class="form-group row" style="margin-top:20px">
 				<label class="col-form-label" style="margin-left:15px">專輯</label>
 				<div class="col-7">
-					<input class="form-control" type="text" name="album" value=[2] id="example-text-input" style="margin-left:20px">
+					<input class="form-control" type="text" name="album" value='{{ album }}' id="example-text-input" style="margin-left:20px">
 				</div>
 			</div>
 			
 			<div class="form-group row" style="margin-top:20px">
 				<label class="col-form-label" style="margin-left:15px">系列</label>
 				<div class="col-7">
-					<input class="form-control" type="text" name="series" value=[3] id="example-text-input" style="margin-left:20px">
+					<input class="form-control" type="text" name="series" value='{{ series }}' id="example-text-input" style="margin-left:20px">
 				</div>
 			</div>
 			
 			<div class="form-group row" style="margin-top:20px">
 				<label class="col-form-label" style="margin-left:15px">長度</label>
 				<div class="col-7">
-					<input class="form-control" type="text" name="time" value=[4] id="example-text-input" style="margin-left:20px">
+					<input class="form-control" type="text" name="time" value='{{ time }}' id="example-text-input" style="margin-left:20px">
 				</div>
 			</div>
 			

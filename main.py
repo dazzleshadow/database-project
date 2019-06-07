@@ -23,18 +23,24 @@ def edit_song(id):
 @app.route('/song/create/', methods=['GET', 'POST'])
 def create_song():
     if request.method == 'GET':
-        return render_template('edit.html', name = 123)
+        print("GET create song...>")
+        for e in request.args:
+            print(e, ':', request.args[e])
+        
+        return render_template('edit.html', **request.args)
     elif request.method == 'POST':
-        print("create song...>")
+        print("OPST create song...>")
         for e in request.values:
             print(e, ':', request.values[e])
         input()
         # TODO SQL update   success >> return true
-        if True:
+        if False:
             flash('新增成功! ')
             return render_template('song.html')
         else:
-            return redirect(url_for('create_song'), code=307)   # POST 過來的資料都會留著 讚!
+            flash('新增失敗! ')
+            return redirect(url_for('create_song', **request.values))
+            #return redirect(url_for('create_song'), code=307)   # POST 過來的資料都會留著 讚!
 
 @app.route('/song/_delete/', methods= ['POST'])
 def delete():

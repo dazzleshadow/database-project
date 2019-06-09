@@ -25,10 +25,11 @@ CREATE TABLE song
 (
 	ID int AUTO_INCREMENT PRIMARY KEY,
 	name varchar(10) not null,
-	link varchar(11),
+	link varchar(11) not null,
 	artist varchar(10),
 	album varchar(10),
 	series varchar(10),
+	time int not null,
 	foreign key (artist) references artist(name),
 	foreign key (album) references album(name),
 	foreign key (series) references series(name)
@@ -37,6 +38,6 @@ CREATE TABLE song
 CREATE TABLE playlist
 (
 	Sequence int AUTO_INCREMENT PRIMARY KEY,
-	song_id int,
+	song_id int not null,
 	foreign key (song_id) references song(ID)
 )	ENGINE=INNODB;

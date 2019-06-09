@@ -25,7 +25,7 @@ CREATE TABLE song
 (
 	ID int AUTO_INCREMENT PRIMARY KEY,
 	name varchar(10) not null,
-	link varchar(10),
+	link varchar(11),
 	artist varchar(10),
 	album varchar(10),
 	series varchar(10),

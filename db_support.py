@@ -9,7 +9,8 @@ def format_str(s):
 def format_kwargs(kwargs, sep=', '):
     # {'a': 1, 'b': '2'}
     args = ''
-    args += sep.join( e+'='+format_str(kwargs[e]) for e in kwargs)
+    if kwargs:
+        args += sep.join( e+'='+format_str(kwargs[e]) for e in kwargs if kwargs[e] != '')
     return args
 
 def format_args(args):
@@ -46,6 +47,13 @@ class Database():
     def delete(self, table, **restrict):
         temp_exec('DELETE FROM {} WHERE {};'.format(table, format_kwargs(restrict, sep=' and ')))
 
+    def output(self, table, args='*', kwargs=None):
+        formated = format_kwargs(kwargs, ' and ')
+        if formated != '':
+            self.exec("SELECT " + args + ' FROM ' + table + ' WHERE ' + formated)
+        else:
+            self.exec("SELECT " + args + ' FROM ' + table)
+        return self.cursor
 
     def exec(self, command):
         try:
@@ -53,37 +61,39 @@ class Database():
         except Exception as e:
             print('ERROR {}: {}'.format(e.args[0], e.args[1]))
             #print('Got error {!r}, errno is {}'.format(e, e.args[0]))
- 
-    def output(self, table):
-        self.exec('SELECT * FROM ' + table)
-        return self.cursor
-    
+
     def __del__(self):
         print('close connection')
         if self.db:
             self.db.close()
 
+    def song(self, kwargs=None):
+        empty = True
+        for e in kwargs:
+            if kwargs[e] != '':
+                empty = False
+        if empty:
+            self.output('song', 'id, name, artist, album, series, time')
+        else:
+            self.output('song', 'id, name, artist, album, series, time', kwargs=kwargs)
+        return self.cursor
+    def artist(self, kwargs=None):
+        self.output('artist', 'name, company', kwargs=kwargs)
+        return self.cursor
+    def album(self, kwargs=None):
+        self.output('album', 'name. artist, year', kwargs=kwargs)
+        return self.cursor
+    def series(self, kwargs=None):
+        self.output('series', 'name, type', kwargs=None)
+        return self.cursor
+    def playlist(self):
+        self.exec('SELECT name, artist, album, series, time, Sequence FROM song JOIN playlist ON ID = song_id ORDER BY Sequence;')
+        return self.cursor
+
 if __name__ == "__main__":
     my_db = Database()
-    '''
     my_db.connect()
-    my_db.select_db(db = 'practice')
-    '''
-    myd={}
-    myd['hi'] = 0
-    myd['ho'] = '1'
-    my_db.update(123, myd, **myd)
-    print()
-    my_db.insert('table', (1, 2, 3, '4', '6'), default=True)
-    print()
-    my_db.delete('table', **{'abc': 1, '456': 'a'})
+    my_db.select_db(db = 'temp_muxic')
     
-
-    '''
-    cmd = input('mysql> ')
-    while cmd != '0':
-        my_db.exec(cmd)
-        for e in my_db.cursor:
-            print(e)
-        cmd = input('mysql> ')
-    '''
+    for e in my_db.playlist():
+        print(e)

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, flash
-# from test_mysql import cursor, db
+from db_support import Database
 
 app = Flask(__name__)
 
@@ -33,11 +33,20 @@ def song():
     # id, name, artist, album, series, time
     outputstr= ""
     for e in request.args:
-        print(e, ': ', request.args[e])
+        print(e, ': ', repr(request.args[e]))
         outputstr += ' {}: {}'.format(e, request.args[e])
     if request.args:
         flash("search for"+ outputstr)
-    return render_template('song.html', data = fake_song_data())
+
+
+    data = []
+    attr_seq=['id', 'name', 'artist', 'album', 'series', 'time']
+    for e in db.song(request.args):
+        song={}
+        for i in range(6):
+            song[attr_seq[i]] = e[i]
+        data += [song]
+    return render_template('song.html', data = data)
 
 @app.route('/artist/', methods=['GET'])
 def artist():
@@ -116,10 +125,11 @@ def fake_song_data():
         data += [song]
     return data
 
-
-
-
 if __name__ == "__main__":
+    db = Database()
+    db.connect()
+    db.select_db(db = 'temp_muxic')
+
     app.secret_key = 'my secret key'
     app.run(debug = True, port = 5000)
     # db.close()

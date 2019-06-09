@@ -38,13 +38,12 @@ def song():
     if request.args:
         flash("search for"+ outputstr)
 
-
     data = []
-    attr_seq=['id', 'name', 'artist', 'album', 'series', 'time']
+    song_attr_seq=['id', 'name', 'artist', 'album', 'series', 'time']
     for e in db.song(request.args):
         song={}
         for i in range(6):
-            song[attr_seq[i]] = e[i]
+            song[song_attr_seq[i]] = e[i]
         data += [song]
     return render_template('song.html', data = data)
 
@@ -88,6 +87,7 @@ def edit_song(id):
 
 @app.route('/song/create/', methods=['GET', 'POST'])
 def create_song():
+    song_attr_seq=['name', 'link', 'artist', 'album', 'series', 'time']
     if request.method == 'GET':
         print("GET create song...>")
         for e in request.args:
@@ -98,14 +98,22 @@ def create_song():
         print("POST create song...>")
         for e in request.values:
             print(e, ':', request.values[e])
-        #input()
         # TODO SQL insert   success >> return true
-        if True:
+        
+        args={}
+        for e in request.values:
+            if e is 'time':
+                args[e] = int(request.values[e])
+            else:
+                args[e] = request.values[e]
+
+        result= db.insert('song', [args[e] for e in song_attr_seq], default=True)
+        if result:
             flash('新增成功! ')
             return redirect(url_for('song'))
         else:
             flash('新增失敗! ')
-            return redirect(url_for('create_song', **request.values))
+            return redirect(url_for('create_song'))
             #return redirect(url_for('create_song'), code=307)   # POST 過來的資料都會留著 讚!
 
 @app.route('/song/_delete/', methods= ['POST'])

@@ -6,11 +6,14 @@ def temp_exec(cmd):
 def format_str(s):
     return '\"{}\"'.format(s) if isinstance(s, str) else str(s)
 
-def format_kwargs(kwargs, sep=', '):
+def format_kwargs(kwargs, sep=', ', insert=False):
     # {'a': 1, 'b': '2'}
     args = ''
     if kwargs:
-        args += sep.join( e+'='+format_str(kwargs[e]) for e in kwargs if kwargs[e] != '')
+        if not insert:
+            args += sep.join( e+'='+format_str(kwargs[e]) for e in kwargs if kwargs[e] != '')
+        else:
+            args += sep.join( e+'='+format_str(kwargs[e]) if kwargs[e] !='' else 'NULL' for e in kwargs)
     return args
 
 def format_args(args):
@@ -26,19 +29,19 @@ class Database():
         try:
             self.db = pymysql.connect(host=host, user=user, passwd=passwd)
             self.cursor = self.db.cursor()
-            return True
         except:
             print("Error: Connect denied")
-            return False
     def select_db(self, db='university'):
         try:
             self.cursor.execute("USE " + db)
+            return True
         except:
             print("Error: Can\'t use database " + db)
+            return False
 
     def insert(self, table, args, default = False):
-        temp_exec('INSERT INTO {} VALUES({}{});'.format(
-                  table, 'default, 'if default else '', format_args(args)))
+        return self.exec('INSERT INTO {} VALUES({}{});'.format(
+                         table, 'default, 'if default else '', format_args(args)))
 
     def update(self, table, kwargs, **restrict):
         temp_exec('UPDATE {} SET {} WHERE {};'.format(
@@ -56,11 +59,14 @@ class Database():
         return self.cursor
 
     def exec(self, command):
+        print("try exec: " + command)
         try:
             self.cursor.execute(command)
+            return True
         except Exception as e:
             print('ERROR {}: {}'.format(e.args[0], e.args[1]))
             #print('Got error {!r}, errno is {}'.format(e, e.args[0]))
+            return False
 
     def __del__(self):
         print('close connection')

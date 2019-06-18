@@ -16,9 +16,12 @@ def format_kwargs(kwargs, sep=', ', insert=False):
             args += sep.join( e+'='+format_str(kwargs[e]) if kwargs[e] !='' else 'NULL' for e in kwargs)
     return args
 
-def format_args(args):
+def format_args(args, is_attr):
     # (1, 2, '3')
-    return ', '.join(format_str(e) for e in args)
+    if not is_attr:
+        return ', '.join(format_str(e) for e in args)
+    else:
+        return ', '.join(e for e in args)
 
 
 class Database():
@@ -39,9 +42,17 @@ class Database():
             print("Error: Can\'t use database " + db)
             return False
 
+    def select_one(self, table, args, **restrict):  # args can be str or list/tuple
+        if isinstance(args, str):
+            self.exec('SELECT '+args+' FROM '+table+' WHERE '+format_kwargs(restrict)+';')
+        else:
+            self.exec('SELECT '+format_args(args, True)+' FROM '+table+' WHERE '+format_kwargs(restrict)+';')
+        return self.cursor.fetchone()
+        
+
     def insert(self, table, args, default = False):
         return self.exec('INSERT INTO {} VALUES({}{});'.format(
-                         table, 'default, 'if default else '', format_args(args)))
+                         table, 'default, 'if default else '', format_args(args, False)))
 
     def update(self, table, kwargs, **restrict):
         temp_exec('UPDATE {} SET {} WHERE {};'.format(
@@ -100,6 +111,8 @@ if __name__ == "__main__":
     my_db = Database()
     my_db.connect()
     my_db.select_db(db = 'temp_muxic')
-    
+    print(my_db.select_one('song', 'ID, name, link', **{'name': 'glagla'}))
+    '''
     for e in my_db.playlist():
         print(e)
+    '''

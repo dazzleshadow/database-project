@@ -67,10 +67,9 @@ def info():
 def edit_song(id):
     if request.method == 'GET':
         print("id:", id)
-        data = fake_song_data()[id]
-        data['link'] = 'templink'
-        for e in request.args:
-            data[e] = request.args[e]
+        song_attr_seq=['name', 'artist', 'link', 'album', 'series', 'time']
+        data = db.select_one('song', song_attr_seq, ID=id)
+        data = dict(zip(song_attr_seq, data))   # 先 zip 成[(attr, val), ()...] 再轉成 dict
         # print(data)
         return render_template('edits/edit song.html', **data)
     elif request.method == 'POST':
